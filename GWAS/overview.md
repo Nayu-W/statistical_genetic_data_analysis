@@ -39,7 +39,7 @@ summary(model)
 # Sex           0.78901     0.04567  17.275 < 2e-16 ***
 ```
 ### Step 5: p-value Calculation
-From output: $\^\beta_1$ = 0.15678, SE($\^\beta_1$) = 0.02345
+From output: β̂₁ = 0.15678, SE(β̂₁) = 0.02345
 #### Step 5.1: Calculate t-statistic
 ```
 t = β̂₁ / SE(β̂₁) = 0.15678 / 0.02345 = 6.685
@@ -64,7 +64,7 @@ p = 2 × [1 - F_t(6.685)]
   = 2.35 × 10⁻¹¹
 ```
 ### Step 6: Interpretation
-- **Effect Size:** Each additional effect allele increases BMI by 0.157 kg/$m^2$ on average
+- **Effect Size:** Each additional effect allele increases BMI by **0.157 kg/m²** on average
 - **Statistical significance:** p = 2.35 × $10^{-11}$ << 5 × $10^{-8}$
 - **Conclusion:** Strong evidence against $H_0$. This SNP is significantly associated with BMI after adjusting for covariates.
 ### Step 7: Visualization
@@ -120,7 +120,7 @@ summary(model)
 # BMI            0.12345    0.01234  10.002 < 2e-16 ***
 ```
 ### Step 5: p-value Calculation
-From output: $\^\beta_1$ = 0.12345, SE($\^\beta_1$) = 0.02345
+From output: β̂₁ = 0.12345, SE(β̂₁) = 0.02345
 #### Step 5.1: Calculate Wald statistic (Z-score)
 ```
 Z = β̂₁ / SE(β̂₁) = 0.12345 / 0.02345 = 5.265
@@ -160,7 +160,7 @@ OR = exp(β̂₁) = exp(0.12345) = 1.1314
 |**Dependent Variable**|Continuous BMI value|Binary T2D status (0/1)|
 |**Parameter of Interest**|$\beta_1$ (slope)|$\beta_1 (log-odds)$|
 |**Effect Interpretation**|Units change per allele|Log-odds change per allele|
-|**Test Statistic**|t = $\^\beta$/SE($\^\beta$)|Z = $\^\beta$/SE($\^\beta$)|
+|**Test Statistic**|t = β̂₁/SE(β̂₁)|Z = β̂₁/SE(β̂₁)|
 |**Distribution Under $H_0$**|t-distribution (df = n-p-1)|Standard Normal N(0,1)|
 |**p-value Formula**|`2 × pt(-\|t\|, df)`|`2 × pnorm(-\|Z\|)`|
 |**Common GWAS Software**|PLINK, BOLT-LMM, fastGWA|SAIGE, REGENIE, PLINK|
@@ -191,7 +191,7 @@ cat(sprintf("β = %.3f, SE = %.3f, t = %.3f, df = %d, p = %.3f\n",
             beta, se, t_stat, df, p_value))
 # Output: β = 0.142, SE = 0.095, t = 1.495, df = 498, p = 0.135
 ```
-**Interpretation:** Not significant (p > 0.05). With only 500 individuals, we lack power to detect this small effect.
+**Interpretation:** Not significant (p > 0.05). With only 500 individuals, we lack power to detect this small effect.  
 **Example 2: Dichotomous Trait with Imbalanced Cases**
 ```r
 # Data: 500 cases, 4500 controls
@@ -393,7 +393,10 @@ The p-value calculation process differs fundamentally between quantitative and d
 
 **Universal GWAS Principles:**
 1. Always adjust for covariates (age, sex, PCs)
-2. Use genome-wide significance threshold (5×$10^{-8}$)
+2. Use genome-wide significance threshold (5 × $10^{-8}$)
 3. Check for genomic inflation ($\lambda$ ~ 1.0)
 4. Report effect sizes with p-values
 5. Independent replication is essential
+
+---
+**Contributor:** W.S.
