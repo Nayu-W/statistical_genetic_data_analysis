@@ -14,9 +14,8 @@ The assumption of **normally distributed errors** comes from the **Central Limit
 **Confidence Intervals**|95% CI = β̂ ± t* × SE assumes normality|CI coverage incorrect (e.g., nominal 95% might be 90% actual)
 **Maximum Likelihood**|Normal errors → least squares = maximum likelihood estimator|Efficiency loss (higher variance)
 **Prediction Intervals**|To predict BMI for new individuals|Prediction intervals too narrow/wide
----
 ### 3. The Reality check: BMI Might NOT Be Normally Distributed
-This is the crucial insight! **BMI itself** is often **not** normally distributed:
+**BMI itself** is often **not** normally distributed:
 ```r
 # Real BMI distribution (skewed right)
 hist(bmi_data, main = "BMI Distribution (Right-Skewed)")
@@ -109,7 +108,7 @@ qqline(residuals, col = "red")
 **GWAS reality:** With n > 10,000, the **sampling distribution of β̂₁** is approximately normal even if errors aren't perfectly normal, thanks to CLT.  
 **Scenario 2: Severe Violations (Need Action)**
 ```r
-# Severe right-skew (e.g., triglyceride levels)
+# Severe right-skew
 hist(phenotype) # Heavily right-skewed
 
 # Solution:
@@ -175,11 +174,11 @@ Let's simulate the consequences:
 import numpy as np
 import statsmodels.api as sm
 from scipy import stats
-import matplotlib.pyplot as plt
 
-def simulate_gwas_nonnormal(n=1000, effect_size=0.2, error_dist='normal'):
+def simulate_gwas_nonnormal(n=1000, effect_size=0.2, error_dist='normal', seed=None):
     """Simulate GWAS with different error distributions"""
-    np.random.seed(123)
+    if seed is not None:
+        np.random.seed(seed)
 
     # Genotype (MAF=0.3)
     maf = 0.3
@@ -217,22 +216,30 @@ def simulate_gwas_nonnormal(n=1000, effect_size=0.2, error_dist='normal'):
 # Compare different error distributions
 distributions = ['normal', 'exponential', 't3', 'uniform']
 results = {dist: [] for dist in distributions}
+n_simulations = 1000
 
 for dist in distributions:
-    for _ in range(1000):   # 1000 simulations
-        results[dist].append(simulate_gwas_nonnormal(n=5000, error_dist=dist))
+    for i in range(n_simulations):
+        results[dist].append(simulate_gwas_nonnormal(n=5000, error_dist=dist, seed=i))
 
 # Check coverage of 95% CI
+print("GWAS Simulation Results (n=5000, effect_size=0.2)")
+print("=" * 50)
 for dist in distributions:
     covers = [1 if (0.2 >= res['ci_lower'] and 0.2 <= res['ci_upper']) else 0 for res in results[dist]]
     coverage = np.mean(covers)
-    print(f"{dist}: 95% CI coverage = {coverage:.3f}")
+    print(f"{dist:12s}: 95% CI coverage = {coverage:.3f}")
 ```
 **Typical output:**
-- `normal`: 0.950 (correct)
-- `exponential`: 0.892 (undercoverage)
-- `t3`: 0.907 (undercoverage) 
-- `uniform`: 0.963 (overcoverage)
+```
+GWAS Simulation Results (n=5000, effect_size=0.2)
+==================================================
+normal      : 95% CI coverage = 0.942
+exponential : 95% CI coverage = 0.946
+t3          : 95% CI coverage = 0.961
+uniform     : 95% CI coverage = 0.943
+```
+The results are all close to 95% coverage even for non-normal errors. This demonstrates an important statistical principle: **For large sample sizes, the Central Limit Theorem ensures that OLS regression coefficients are approximately normally distributed regardless of the error distribution.**
 ### 9. Modern GWAS Approaches That Relax This Assumption
 **(A) Rank-based Inverse Normal Transformation (RINT)**
 ```r
