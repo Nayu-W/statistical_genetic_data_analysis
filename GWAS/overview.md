@@ -15,11 +15,11 @@ ID      BMI     rs12345 Age     Sex     PC1     ...     PC10
 ```
 ### Step 2: Model Specification
 ```math
-BMI_i = \beta_0 + \beta_1 * (rs12345_i) + \beta_2 * Age_i + \beta_3 * Sex_i + \sum_{1}^{10} (\beta_{3+j} * PCj_i) + \epsilon_i
+BMI_i = \beta_0 + \beta_1 * (rs12345_i) + \beta_2 * Age_i + \beta_3 * Sex_i + \sum_{1}^{10} (\beta_{3+j} * PCj_i) + \varepsilon_i
 ```
 where:
 - $\beta_1$ is our parameter of interest (effect of SNP on BMI)
-- $\epsilon_i$ ~ N(0, $\sigma^2$) (normally distributed errors)
+- $\varepsilon_i$ ~ N(0, $\sigma^2$) (normally distributed errors)
 ### Step 3: Null Hypothesis
 $H_0$: $\beta_1$ = 0 (SNP has no effect on BMI)  
 $H_1$: $\beta_1$ &ne; 0 (SNP affects BMI)
@@ -166,7 +166,6 @@ OR = exp(β̂₁) = exp(0.12345) = 1.1314
 |**Common GWAS Software**|PLINK, BOLT-LMM, fastGWA|SAIGE, REGENIE, PLINK|
 |**Typical Sample Size**|50,000+|10,000+ cases, 50,000+ controls|
 |**Multiple Testing Threshold**|5 × $10^{-8}$|5 × $10^{-8}$|
----
 ### Detailed Calculation Examples
 **Example 1: Quantitative Trait with Small Sample**
 ```r
@@ -376,7 +375,6 @@ N_cases = 5,000, N_controls = 15,000
 **Low Minor Allele Frequency**|Use exact tests|`fisher.test()` for rare variants
 **Missing Data**|Impute genotypes|`library(impute)` or MINIMAC
 **Multiple Testing**|Use genome-wide threshold|`p < 5e-8` for significance
----
 ## **Summary**
 The p-value calculation process differs fundamentally between quantitative and dichotomous traits:  
 **For Quantitative Traits:**
