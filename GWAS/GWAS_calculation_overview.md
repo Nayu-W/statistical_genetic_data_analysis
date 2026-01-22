@@ -19,7 +19,7 @@ BMI_i = \beta_0 + \beta_1 * (rs12345_i) + \beta_2 * Age_i + \beta_3 * Sex_i + \s
 ```
 where:
 - $\beta_1$ is our parameter of interest (effect of SNP on BMI)
-- $\varepsilon_i$ ~ N(0, $\sigma^2$) (normally distributed errors)
+- $\varepsilon_i$ ~ N(0, $\sigma^2$) ([normally distributed errors](./normally_distributed_errors_in_GWAS_linear_regression.md))
 ### Step 3: Null Hypothesis
 $H_0$: $\beta_1$ = 0 (SNP has no effect on BMI)  
 $H_1$: $\beta_1$ &ne; 0 (SNP affects BMI)
